@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../logic/wallet_provider.dart';
 import '../../utils/constants.dart';
-import '../../utils/app_localization.dart'; // Import
+import '../../utils/app_localization.dart';
 import '../atoms/app_button.dart';
 import '../molecules/fee_row.dart';
 
+/// Transaction Receipt Page.
+/// Displays the final breakdown for the customer.
+/// Note: Internal protocol fees (0.2%) are hidden from this view for simplicity.
 class ConfirmationPage extends StatelessWidget {
   final String targetAddress;
   final double amount;
@@ -23,6 +26,7 @@ class ConfirmationPage extends StatelessWidget {
     final lang = walletState.language;
     final symbol = AppLocalization.getCurrencySymbol(walletState.currency);
 
+    // Protocol Calculations
     final ngoFee = amount * kNgoFeePercent;
     final devFee = amount * kDevFeePercent;
     final merchantNet = amount - ngoFee - devFee;
@@ -30,7 +34,7 @@ class ConfirmationPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalization.get(lang, 'receipt_title')),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false, // Prevent back navigation during receipt view
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -52,6 +56,7 @@ class ConfirmationPage extends StatelessWidget {
                     Text(AppLocalization.get(lang, 'amount_paid'), style: const TextStyle(color: Colors.grey)),
                     const Divider(height: 30),
                     
+                    // Customer-facing breakdown
                     FeeRow(label: AppLocalization.get(lang, 'merchant'), value: "$symbol${merchantNet.toStringAsFixed(2)}"),
                     FeeRow(
                       label: "${AppLocalization.get(lang, 'donor_ngo')} (${ngoName ?? 'Partenaire'})", 
@@ -64,6 +69,7 @@ class ConfirmationPage extends StatelessWidget {
             ),
             const Spacer(),
             
+            // Return to Dashboard
             AppButton(
               label: AppLocalization.get(lang, 'new_sale'),
               icon: Icons.store,
@@ -71,9 +77,7 @@ class ConfirmationPage extends StatelessWidget {
                 Navigator.popUntil(context, ModalRoute.withName('/'));
               },
             ),
-            
             const SizedBox(height: 12),
-
             TextButton(
               onPressed: () {
                 Navigator.popUntil(context, ModalRoute.withName('/'));

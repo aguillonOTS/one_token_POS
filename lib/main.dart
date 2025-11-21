@@ -3,7 +3,7 @@ import 'logic/wallet_provider.dart';
 import 'logic/wallet_state.dart';
 import 'ui/pages/confirmation_page.dart';
 import 'ui/pages/dashboard_page.dart';
-import 'ui/pages/history_page.dart'; // Import Nouvelle page
+import 'ui/pages/history_page.dart';
 import 'ui/pages/payment_qr_page.dart';
 import 'ui/pages/settings_page.dart';
 import 'utils/constants.dart';
@@ -12,6 +12,8 @@ void main() {
   runApp(const OneTeamPosApp());
 }
 
+/// Root Widget of the Application.
+/// Sets up the global Theme, Routing, and State Injection (Provider).
 class OneTeamPosApp extends StatelessWidget {
   const OneTeamPosApp({super.key});
 
@@ -34,8 +36,9 @@ class OneTeamPosApp extends StatelessWidget {
         routes: {
           '/': (context) => const DashboardPage(),
           '/settings': (context) => const SettingsPage(),
-          '/history': (context) => const HistoryPage(), // Nouvelle route
+          '/history': (context) => const HistoryPage(),
         },
+        // Dynamic route generation for argument passing
         onGenerateRoute: (settings) {
           if (settings.name == '/payment_qr') {
             final args = settings.arguments as Map<String, dynamic>;

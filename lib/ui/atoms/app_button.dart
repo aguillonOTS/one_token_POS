@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// Reusable Button Component.
+/// Standardizes button styling across the application (Height, Elevation, Colors).
 class AppButton extends StatelessWidget {
   final String label;
   final IconData icon;
@@ -18,7 +20,7 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 56,
+      height: 56, // Fixed height for touch targets
       child: ElevatedButton.icon(
         onPressed: onPressed,
         icon: Icon(icon),
@@ -26,7 +28,7 @@ class AppButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.primary,
           foregroundColor: Colors.white,
-          elevation: 0,
+          elevation: 0, // Flat design
         ),
       ),
     );

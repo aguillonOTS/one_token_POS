@@ -6,6 +6,8 @@ import '../atoms/app_button.dart';
 import '../atoms/fee_text.dart';
 import '../organisms/balance_card.dart';
 
+/// Main Screen: Dashboard.
+/// Displays daily volume and quick actions to trigger the POS flow.
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
 
@@ -29,6 +31,7 @@ class DashboardPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // Organism: Displays Volume & Protocol Fees
             BalanceCard(dailyVolume: walletState.dailyVolume),
             const SizedBox(height: 24),
             
@@ -52,7 +55,6 @@ class DashboardPage extends StatelessWidget {
               backgroundColor: Colors.blueGrey,
               onPressed: () => Navigator.pushNamed(context, '/history'),
             ),
-            
             const Spacer(),
           ],
         ),
@@ -60,6 +62,8 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
+  /// Displays the Payment Form Modal.
+  /// Uses StatefulBuilder to handle local form state (Dropdown selection) independently.
   void _showPaymentDialog(BuildContext context) {
     final TextEditingController amountCtrl = TextEditingController();
     String selectedNgo = kNgoList.first;
@@ -68,8 +72,8 @@ class DashboardPage extends StatelessWidget {
     final lang = walletState.language;
     final symbol = AppLocalization.getCurrencySymbol(walletState.currency);
     
-    // --- CORRECTION : Icône Dynamique (€ ou $) ---
-    IconData currencyIcon = Icons.attach_money; // Par défaut $
+    // Dynamic icon based on currency
+    IconData currencyIcon = Icons.attach_money;
     if (walletState.currency == 'EUR') {
       currencyIcon = Icons.euro;
     }
@@ -91,7 +95,6 @@ class DashboardPage extends StatelessWidget {
                   decoration: InputDecoration(
                     labelText: "${AppLocalization.get(lang, 'amount_label')} ($symbol)", 
                     border: const OutlineInputBorder(),
-                    // L'icône change maintenant selon la devise !
                     prefixIcon: Icon(currencyIcon),
                   ),
                 ),
@@ -117,6 +120,7 @@ class DashboardPage extends StatelessWidget {
                   final amount = double.tryParse(amountCtrl.text);
                   if (amount != null && amount > 0) {
                     Navigator.pop(ctx);
+                    // Navigate to QR Page with transaction arguments
                     Navigator.pushNamed(
                       context, 
                       '/payment_qr', 

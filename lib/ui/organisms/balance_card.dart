@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../logic/wallet_provider.dart';
 import '../../utils/constants.dart';
-import '../../utils/app_localization.dart'; // Import
+import '../../utils/app_localization.dart';
 
+/// Organism displaying the daily volume and protocol fee breakdown.
+/// Connects to the WalletState to fetch the current currency symbol.
 class BalanceCard extends StatelessWidget {
   final double dailyVolume;
 
@@ -13,10 +15,9 @@ class BalanceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final walletState = WalletProvider.of(context);
     final lang = walletState.language;
-    // Récupération du bon symbole (€, $, USDC)
     final symbol = AppLocalization.getCurrencySymbol(walletState.currency);
 
-    // Formatage dynamique avec le bon symbole
+    // Dynamic formatting based on selected currency
     final fmt = NumberFormat.currency(symbol: symbol, decimalDigits: 2);
     
     return Container(
@@ -42,6 +43,7 @@ class BalanceCard extends StatelessWidget {
             style: const TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
+          // Protocol Fee Breakdown
           Row(
             children: [
               _MiniStat("ONG (2%)", fmt.format(dailyVolume * kNgoFeePercent)),
@@ -55,6 +57,7 @@ class BalanceCard extends StatelessWidget {
   }
 }
 
+/// Helper Widget for small statistics inside the card.
 class _MiniStat extends StatelessWidget {
   final String label;
   final String value;

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+/// Data Transfer Object representing a blockchain transaction.
 class TransactionModel {
   final String hash;
   final double amount;
@@ -15,12 +16,17 @@ class TransactionModel {
   });
 }
 
+/// Service simulating Web3 interactions.
+/// In production, this would use 'web3dart' to sign and broadcast transactions.
 class BlockchainService {
-  // Simule l'interaction avec le Smart Contract
+  
+  /// Simulates a transaction execution on the blockchain.
+  /// Returns a fake transaction hash after a network delay.
   Future<String> executeTransaction(String recipient, double amount) async {
-    // Simulation de latence réseau (RPC call)
+    // Simulate network latency (RPC call)
     await Future.delayed(const Duration(seconds: 2));
-    // Retourne un faux hash de transaction Ethereum
+    
+    // Generate a random mock hash
     return "0x${Random().nextInt(999999999)}abcdef";
   }
 }

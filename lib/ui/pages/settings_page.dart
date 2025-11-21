@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../logic/wallet_provider.dart';
 import '../../utils/constants.dart';
-import '../../utils/app_localization.dart'; // Import
+import '../../utils/app_localization.dart';
 import '../atoms/app_button.dart';
 
+/// Settings Page.
+/// Allows modification of global app state (Language, Currency, Network).
+/// Uses local state for temporary selection before saving to the global Provider.
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
@@ -20,6 +23,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    // Initialize local state from Global Provider
     if (!_isInitialized) {
       final walletState = WalletProvider.of(context);
       _selectedLanguage = walletState.language;
@@ -30,8 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    // On récupère la langue actuelle pour traduire l'interface instantanément
-    // Note : Ici on utilise _selectedLanguage pour que l'UI change dès la sélection
+    // Use the locally selected language for immediate UI feedback
     final lang = _selectedLanguage ?? "Français";
 
     return Scaffold(
@@ -62,6 +65,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
           const SizedBox(height: 40),
           
+          // Save Button: Commits changes to the Global State
           AppButton(
             label: AppLocalization.get(lang, 'save_back'),
             icon: Icons.save,
@@ -87,6 +91,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  // UI Helper Methods (Molecules)
   Widget _buildSectionHeader(String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12, top: 8),

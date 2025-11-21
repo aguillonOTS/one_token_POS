@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// Atomic Text Component.
+/// Used for labels and standard text to ensure typographic consistency.
 class FeeText extends StatelessWidget {
   final String text;
   final bool isBold;

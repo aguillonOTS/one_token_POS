@@ -4,6 +4,8 @@ import '../../logic/wallet_provider.dart';
 import '../../utils/app_localization.dart';
 import '../atoms/fee_text.dart';
 
+/// QR Code Payment Screen.
+/// Generates an EIP-681 compliant URI for the One Token Protocol.
 class PaymentQrPage extends StatefulWidget {
   final double amount;
   final String ngo;
@@ -17,18 +19,23 @@ class PaymentQrPage extends StatefulWidget {
 class _PaymentQrPageState extends State<PaymentQrPage> {
   bool _isPaymentReceived = false;
 
+  // Constructs the Ethereum URI with embedded NGO metadata
   String get _paymentData {
     const contract = "0xYourContractAddress";
     const merchant = "0xYourMerchantAddress";
     return "ethereum:$contract/transfer?address=$merchant&uint256=${widget.amount}&data=NGO:${widget.ngo}";
   }
 
+  /// Simulates external blockchain validation (Triggered manually or via websocket).
   void _triggerValidation() async {
     final walletState = WalletProvider.of(context);
+    
+    // Execute Business Logic
     await walletState.processPayment("CLIENT_WALLET", widget.amount);
     
     if (mounted) {
       setState(() => _isPaymentReceived = true);
+      // Redirect to Success Page
       await Future.delayed(const Duration(seconds: 1));
       if (mounted) {
         Navigator.pushReplacementNamed(
@@ -73,7 +80,7 @@ class _PaymentQrPageState extends State<PaymentQrPage> {
                     ),
                   const SizedBox(height: 20),
                   
-                  // Montant Principal (Affiche la devise ici : ex "€150.00" ou "USDC 150.00")
+                  // Main Amount Display (e.g., €150.00)
                   Text(
                     "$symbol${widget.amount.toStringAsFixed(2)}",
                     style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
@@ -84,8 +91,7 @@ class _PaymentQrPageState extends State<PaymentQrPage> {
                   
                   const SizedBox(height: 8),
                   
-                  // --- CORRECTION EXPLICITE ---
-                  // Nous affichons uniquement le texte traduit, SANS ajouter "($symbol)" à la fin.
+                  // Clean Instruction Text (No redundant symbol)
                   Text(
                     AppLocalization.get(lang, 'scan_instruction'), 
                     style: const TextStyle(color: Colors.grey)
@@ -100,6 +106,8 @@ class _PaymentQrPageState extends State<PaymentQrPage> {
               const SizedBox(height: 20),
               FeeText(AppLocalization.get(lang, 'waiting_scan'), isBold: true),
               const SizedBox(height: 40),
+              
+              // Manual Trigger Button (Dev/Test Mode)
               SizedBox(
                 width: double.infinity,
                 height: 50,

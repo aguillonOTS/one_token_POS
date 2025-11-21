@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../atoms/fee_text.dart';
 
+/// Displays a single line in a receipt or fee breakdown.
+/// Consists of a label (left) and a value (right).
 class FeeRow extends StatelessWidget {
   final String label;
   final String value;
@@ -16,7 +18,12 @@ class FeeRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           FeeText(label, color: highlight ? Colors.black : Colors.grey),
-          FeeText(value, isBold: true, color: highlight ? Colors.green : Colors.black87, fontSize: highlight ? 16 : 14),
+          FeeText(
+            value, 
+            isBold: true, 
+            color: highlight ? Colors.green : Colors.black87, 
+            fontSize: highlight ? 16 : 14
+          ),
         ],
       ),
     );
