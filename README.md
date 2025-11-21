@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # one_token_pos
 
 A new Flutter project.
@@ -14,3 +15,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# one_token_POS
+>>>>>>> d88dcb3dcbd74b4d51130cf6a52a9226aac99fe7
